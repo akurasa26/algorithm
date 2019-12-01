@@ -9,7 +9,7 @@ int main() {
     cin >> n;
     int a = -1;
     int b = -1;
-    
+
     for(int i = (n / 5); i >= 0; i--) {
         int remainder = n - (i * 5);
         if(remainder % 3 == 0) {
