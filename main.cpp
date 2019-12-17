@@ -1,43 +1,38 @@
 //
-// Created by jelly on 03/12/2019.
+// Created by jelly on 17/12/2019.
 //
 #include <iostream>
-
 using namespace std;
-
-bool d[10001];
-
+short aa[10002];
+short bb[10002];
+short answer[10002];
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    for (int i = 2; i < 10001; ++i) d[i] = true;
-    for (int i = 2; i < 10001; ++i) {
-        if (!d[i]) continue;
-        for (int j = i; j < 10001; ++j) {
-            int index = j * i;
-            if (index >= 10001) break;
-            d[index] = false;
-        }
+    string a, b;
+    cin >> a >> b;
+
+    int j = 0;
+    for (int i = a.size() - 1; i >= 0; i--, j++) {
+        aa[j] = (short) a[i] - 48;
+        cout << aa[j] << endl;
+    }
+    cout << "=======================" << endl;
+    j = 0;
+    for (int i = b.size() - 1; i >= 0; i--, j++) {
+        bb[j] = (short) b[i] - 48;
+        cout << bb[j] << endl;
     }
 
-    int T;
-    cin >> T;
-    int a;
-    while (T--) {
-        int min = 999999;
-        int ans = 999999;
-        cin >> a;
-        for (int i = 2; i <= (a / 2) + 1; ++i) {
-            if (d[i] && d[a - i]) {
-                if ((a - i) - i < min) {
-                    if ((a - i - i) < 0) break;
-                    min = (a - i) - i;
-                    ans = i;
-                }
-            }
-        }
-        cout << ans << ' ' << a - ans << '\n';
+    int s = max(a.size(), b.size());
+    int before = 0;
+    for (int i = 0; i <= s; i++) {
+        int sum = (before + aa[i] + bb[i]);
+        answer[i] = sum % 10;
+        before = sum / 10;
+    }
+
+    if (answer[s]) cout << answer[s];
+    for (int i = s - 1; i >= 0; i--) {
+        cout << answer[i];
     }
 
     return 0;
