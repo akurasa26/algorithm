@@ -39,7 +39,6 @@ int main() {
     // 최빈값
     int max_frequency = 0;
     for (int i = 0; i < 8001; i++) {
-        if (a[i]) cout << i << endl;
         max_frequency = max(max_frequency, a[i]);
     }
 
