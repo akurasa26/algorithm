@@ -2,10 +2,12 @@
 // Created by jelly on 17/12/2019.
 //
 #include <iostream>
+
 using namespace std;
 short aa[10002];
 short bb[10002];
 short answer[10002];
+
 int main() {
     string a, b;
     cin >> a >> b;
@@ -13,13 +15,10 @@ int main() {
     int j = 0;
     for (int i = a.size() - 1; i >= 0; i--, j++) {
         aa[j] = (short) a[i] - 48;
-        cout << aa[j] << endl;
     }
-    cout << "=======================" << endl;
     j = 0;
     for (int i = b.size() - 1; i >= 0; i--, j++) {
         bb[j] = (short) b[i] - 48;
-        cout << bb[j] << endl;
     }
 
     int s = max(a.size(), b.size());
