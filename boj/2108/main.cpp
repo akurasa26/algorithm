@@ -11,7 +11,7 @@ int a[8001];
 int main() {
     int t;
     cin >> t;
-    long double sum;
+    long double sum = 0;
 
     int m = 9999, M = -9999;
 
