@@ -1,39 +1,62 @@
 //
-// Created by jelly on 17/12/2019.
+// Created by jelly on 26/12/2019.
 //
 #include <iostream>
+#include <algorithm>
+
 using namespace std;
-short aa[10002];
-short bb[10002];
-short answer[10002];
+
+int a[501];
+int idx[501];
+int d[101];
+int a2[501];
+int idx2[501];
+int d2[101];
 int main() {
-    string a, b;
-    cin >> a >> b;
-
-    int j = 0;
-    for (int i = a.size() - 1; i >= 0; i--, j++) {
-        aa[j] = (short) a[i] - 48;
-        cout << aa[j] << endl;
-    }
-    cout << "=======================" << endl;
-    j = 0;
-    for (int i = b.size() - 1; i >= 0; i--, j++) {
-        bb[j] = (short) b[i] - 48;
-        cout << bb[j] << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t;
+    cin >> t;
+    for (int i = 0; i < t; i++) {
+        int b, c;
+        cin >> b >> c;
+        a[b] = c;
+        a2[c] = b;
+        idx[i] = b;
+        idx2[i] = c;
     }
 
-    int s = max(a.size(), b.size());
-    int before = 0;
-    for (int i = 0; i <= s; i++) {
-        int sum = (before + aa[i] + bb[i]);
-        answer[i] = sum % 10;
-        before = sum / 10;
+    sort(idx, idx + t);
+    sort(idx2, idx2 + t);
+    d[0] = 1;
+    for (int j = 1; j < t; j++) {
+        d[j] = 1;
+        int i = idx[j];
+        for (int k = j - 1; k >= 0; k--) {
+            int l = idx[k];
+            if (a[i] > a[l] && d[k] >= d[j]) {
+                d[j] = d[k] + 1;
+            }
+        }
     }
 
-    if (answer[s]) cout << answer[s];
-    for (int i = s - 1; i >= 0; i--) {
-        cout << answer[i];
+    d2[0] = 1;
+    for (int j = 1; j < t; j++) {
+        d2[j] = 1;
+        int i = idx2[j];
+        for (int k = j - 1; k >= 0; k--) {
+            int l = idx2[k];
+            if (a2[i] > a2[l] && d2[k] >= d2[j]) {
+                d[j] = d2[k] + 1;
+            }
+        }
     }
 
+    int M = 0;
+    for (int i = 0; i < t; i++) {
+        M = max(M, d[i]);
+        M = max(M, d2[i]);
+    }
+    cout << t - M;
     return 0;
 }
