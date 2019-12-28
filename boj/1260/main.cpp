@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <queue>
+
 using namespace std;
 
 vector<int> dn[1001];
