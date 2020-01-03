@@ -5,27 +5,35 @@
 
 using namespace std;
 int a[101][2];
+int m[101][100001];
 int M = 0;
 int n, k;
 
-void go(int index, int w, int v) {
-    if (w > k) return;
-    if (index == n) return;
+int go(int index, int w) {
+    if (index >= n) return 0;
 
-    M = max(M, v);
+    int ans = m[index][w];
 
-    for (int i = index; i < n; i++) {
-        go(index + 1, w + a[i][0], v + a[i][1]);
+    if (ans >= 0) {
+        return ans;
+    } else {
+        ans = 0;
     }
+
+    if (w - a[index][0] >= 0) ans = max(go(index + 1, w - a[index][0]) + a[index][1], go(index + 1, w));
+    else ans = go(index + 1, w);
+
+    return ans;
 }
 
 int main() {
+    memset(m, -1, sizeof(m));
     cin >> n >> k;
     for (int i = 0; i < n; i++) {
         cin >> a[i][0] >> a[i][1];
     }
-    go(0, 0, 0);
 
-    cout << M;
+    cout << go(0, k);
+
     return 0;
 }

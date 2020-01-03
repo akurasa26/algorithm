@@ -1,72 +1,90 @@
 //
-// Created by jelly on 28/12/2019.
+// Created by jelly on 01/01/2020.
 //
 #include <iostream>
-#include <algorithm>
-#include <vector>
+#include <cstring>
 #include <queue>
+
 using namespace std;
 
-vector<int> dn[1001];
-vector<int> bn[1001];
-queue<int> b_v;
-bool d_check[1001];
-bool b_check[1001];
+int l;
+bool a[301][301];
 
-void dfs(int node) {
-    d_check[node] = true;
-    cout << node << ' ';
-    sort(dn[node].begin(), dn[node].end());
-    for (int i = 0; i < dn[node].size(); i++) {
-        int n = dn[node][i];
-        if (!d_check[n]) {
-            dfs(n);
-        }
+int dx[8] = {-2, -1, 1, 2, 2, 1, -1, -2};
+int dy[8] = {-1, -2, -2, -1, 1, 2, 2, 1};
+
+struct Point {
+    int x;
+    int y;
+    int c;
+};
+
+queue<Point> q;
+Point goal;
+
+bool bfs(Point current) {
+    if (current.x < 0 || current.y < 0 || current.x >= l || current.y >= l) return false;
+    if (a[current.x][current.y]) {
+        return false;
     }
+
+    a[current.x][current.y] = true;
+
+    if (goal.x == current.x && goal.y == current.y) {
+        goal.c = current.c;
+        return true;
+    }
+
+    for (int i = 0; i < 8; i++) {
+        Point p;
+        p.x = current.x + dx[i];
+        p.y = current.y + dy[i];
+        p.c = current.c + 1;
+        q.push(p);
+    }
+
+    return false;
 }
-
-void bfs(int node) {
-    if (b_check[node]) return;
-    if (!b_check[node]) {
-        cout << node << ' ';
-    }
-    b_check[node] = true;
-
-    sort(bn[node].begin(), bn[node].end());
-    for (int i = 0; i < bn[node].size(); i++) {
-        int n = bn[node][i];
-        if (!b_check[n]) {
-            b_v.push(n);
-        }
-    }
-
-
-    while (!b_v.empty()) {
-        int n = b_v.front();
-        bfs(n);
-        if (!b_v.empty())
-            b_v.pop();
-
-    }
-}
-
 
 int main() {
-    int n, m, k;
-    cin >> n >> m >> k;
+    int t;
+    cin >> t;
 
-    for (int i = 0; i < m; i++) {
-        int from, to;
-        cin >> from >> to;
-        dn[from].push_back(to);
-        dn[to].push_back(from);
-        bn[from].push_back(to);
-        bn[to].push_back(from);
+    while (t--) {
+        cin >> l;
+        memset(a, false, sizeof(bool) * 90601);
+
+        Point current;
+        cin >> current.x;
+        cin >> current.y;
+        current.c = 0;
+        cin >> goal.x;
+        cin >> goal.y;
+        goal.c = 0;
+
+        if (current.x == goal.x && current.y == goal.y) {
+            cout << 0 << '\n';
+            continue;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            Point p;
+            p.x = current.x + dx[i];
+            p.y = current.y + dy[i];
+            p.c = current.c + 1;
+            q.push(p);
+        }
+
+        while (!q.empty()) {
+            if (bfs(q.front()))
+                break;
+            q.pop();
+        }
+        while (!q.empty()) {
+            q.pop();
+        }
+        cout << (goal.c) << '\n';
     }
-
-    dfs(k);
-    cout << '\n';
-    bfs(k);
 
     return 0;
 }
