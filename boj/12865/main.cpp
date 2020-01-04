@@ -1,39 +1,25 @@
-//
-// Created by jelly on 28/12/2019.
-//
-#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <algorithm>
 
+#define w first
+#define v second
 using namespace std;
-int a[101][2];
-int m[101][100001];
-int M = 0;
-int n, k;
-
-int go(int index, int w) {
-    if (index >= n) return 0;
-
-    int ans = m[index][w];
-
-    if (ans >= 0) {
-        return ans;
-    } else {
-        ans = 0;
-    }
-
-    if (w - a[index][0] >= 0) ans = max(go(index + 1, w - a[index][0]) + a[index][1], go(index + 1, w));
-    else ans = go(index + 1, w);
-
-    return ans;
-}
-
+typedef pair<int, int> pii;
+vector<pii> I;
+int N, W, dp[100001];
 int main() {
-    memset(m, -1, sizeof(m));
-    cin >> n >> k;
-    for (int i = 0; i < n; i++) {
-        cin >> a[i][0] >> a[i][1];
+    scanf("%d%d", &N, &W);
+    for (int i = 0; i < N; i++) {
+        int wei, val;
+        scanf("%d%d", &wei, &val);
+        I.emplace_back(pii(wei, val));
     }
-
-    cout << go(0, k);
-
+    for (int i = 0; i < N; i++) {
+        for (int j = W; j >= I[i].w; j--) {
+            dp[j] = max(dp[j], dp[j - I[i].w] + I[i].v);
+        }
+    }
+    printf("%d\n", dp[W]);
     return 0;
 }
