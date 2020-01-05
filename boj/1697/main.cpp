@@ -3,12 +3,9 @@
 //
 #include <iostream>
 #include <queue>
-#include <utility>
-
 using namespace std;
 
 int d[200001];
-queue<int> q;
 
 
 int main() {
@@ -19,30 +16,30 @@ int main() {
         cout << 0;
         return 0;
     }
-
+    queue<int> q;
     q.push(n);
+    d[n] = 1;
     while (!d[k]) {
         int temp = q.front();
         q.pop();
-        if (d[temp]) continue;
-        int double_t = temp * 2;
+        int d_t = temp * 2;
         int m_t = temp - 1;
         int p_t = temp + 1;
-        if (double_t < 200001 && double_t >= 0) {
-            d[double_t] = d[temp] + 1;
-            q.push(double_t);
+        if (d_t < 200001 && d_t >= 0 && !d[d_t]) {
+            d[d_t] = d[temp] + 1;
+            q.push(d_t);
         }
-        if (double_t < 200001 && double_t >= 0) {
+        if (m_t < 200001 && m_t >= 0 && !d[m_t]) {
             d[m_t] = d[temp] + 1;
             q.push(m_t);
         }
-        if (double_t < 200001 && double_t >= 0) {
+        if (p_t < 200001 && p_t >= 0 && !d[p_t]) {
             d[p_t] = d[temp] + 1;
             q.push(p_t);
         }
     }
 
-    cout << d[k];
+    cout << d[k] - 1;
     return 0;
 }
 
