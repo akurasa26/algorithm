@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <algorithm>
+
 using namespace std;
 int d[10];
 int a[10];
@@ -18,13 +19,12 @@ int main() {
 
     for (int i = n - 1; i >= 0; i--) {
         d[i] = k / a[i];
-        if (d[i] > 0)
-            k %= (d[i] * a[i]);
+        k %= (d[i] * a[i]);
     }
 
     int sum = 0;
     for (int i = 0; i < n; i++) {
-        sum += d[i];
+        sum += d[i] * a[i];
     }
 
     cout << sum;
