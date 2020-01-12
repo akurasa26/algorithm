@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <vector>
-
+#include <cstring>
 using namespace std;
 
 vector<int> v;
@@ -26,16 +26,31 @@ void goPreorder(int i) {
     }
 }
 
+
 void goMid(int i) {
     if (!check[i]) {
         check[i] = true;
     }
     if (a[i][0] && !check[a[i][0]]) {
-        goPreorder(a[i][0]);
+        goMid(a[i][0]);
+    }
+    v.push_back(i);
+
+    if (a[i][1] && !check[a[i][1]]) {
+        goMid(a[i][1]);
+    }
+}
+
+void goLast(int i) {
+    if (!check[i]) {
+        check[i] = true;
+    }
+    if (a[i][0] && !check[a[i][0]]) {
+        goLast(a[i][0]);
     }
 
     if (a[i][1] && !check[a[i][1]]) {
-        goPreorder(a[i][1]);
+        goLast(a[i][1]);
     }
     v.push_back(i);
 
@@ -69,6 +84,14 @@ int main() {
     memset(check, false, sizeof(check));
     v.clear();
     goMid(1);
+    for (int c : v) {
+        cout << char(c + 64);
+    }
+    cout << endl;
+
+    memset(check, false, sizeof(check));
+    v.clear();
+    goLast(1);
     for (int c : v) {
         cout << char(c + 64);
     }

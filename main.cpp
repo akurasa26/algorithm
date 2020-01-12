@@ -1,56 +1,104 @@
 //
-// Created by jelly on 2020/01/05.
+// Created by jelly on 2020/01/06.
 //
 #include <iostream>
-#include <deque>
-#include <tuple>
-
+#include <vector>
+#include <cstring>
 using namespace std;
 
-int a[101][101];
-int d[101][101];
+vector<int> v;
+int a[27][2];
+bool check[27];
 
 
-int dx[4] = {0, 0, 1, -1};
-int dy[4] = {1, -1, 0, 0};
+void goPreorder(int i) {
+    if (!check[i]) {
+        v.push_back(i);
+        check[i] = true;
+    }
+
+    if (a[i][0] && !check[a[i][0]]) {
+        goPreorder(a[i][0]);
+    }
+
+    if (a[i][1] && !check[a[i][1]]) {
+        goPreorder(a[i][1]);
+    }
+}
+
+
+void goMid(int i) {
+    if (!check[i]) {
+        check[i] = true;
+    }
+    if (a[i][0] && !check[a[i][0]]) {
+        goMid(a[i][0]);
+    }
+    v.push_back(i);
+
+    if (a[i][1] && !check[a[i][1]]) {
+        goMid(a[i][1]);
+    }
+}
+
+void goLast(int i) {
+    if (!check[i]) {
+        check[i] = true;
+    }
+    if (a[i][0] && !check[a[i][0]]) {
+        goLast(a[i][0]);
+    }
+
+    if (a[i][1] && !check[a[i][1]]) {
+        goLast(a[i][1]);
+    }
+    v.push_back(i);
+
+}
 
 int main() {
-    int n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
 
-    for (int i = 0; i < m; i++) {
-        string str;
-        cin >> str;
-        for (int j = 0; j < n; j++) {
-            a[i][j] = str[j] - 48;
-            d[i][j] = -1;
+    for (int i = 0; i < n; i++) {
+        char root, left, right;
+        cin >> root >> left >> right;
+        root -= 64;
+        left -= 64;
+        right -= 64;
+
+        if (left > 0) {
+            a[root][0] = left;
         }
-    }
-    deque<pair<int, int> > q;
-    q.push_back(make_pair(0, 0));
-    d[0][0] = 0;
-    while (!q.empty()) {
-        int y, x;
-        tie(y, x) = q.front();
-        q.pop_front();
-        for (int k = 0; k < 4; k++) {
-            int ny = y + dy[k];
-            int nx = x + dx[k];
-            if (0 <= ny && ny < m && 0 <= nx && nx < n) {
-                if (d[ny][nx] == -1) {
-                    if (a[ny][nx] == 0) {
-                        d[ny][nx] = d[y][x];
-                        q.push_front(make_pair(ny, nx));
-                    } else {
-                        d[ny][nx] = d[y][x] + 1;
-                        q.push_back(make_pair(ny, nx));
-                    }
-                }
-            }
+
+        if (right > 0) {
+            a[root][1] = right;
         }
     }
 
-    cout << d[m - 1][n - 1];
+    goPreorder(1);
+    for (int c : v) {
+        cout << char(c + 64);
+    }
+    cout << endl;
+    memset(check, false, sizeof(check));
+    v.clear();
+    goMid(1);
+    for (int c : v) {
+        cout << char(c + 64);
+    }
+    cout << endl;
+
+    memset(check, false, sizeof(check));
+    v.clear();
+    goLast(1);
+    for (int c : v) {
+        cout << char(c + 64);
+    }
+    cout << endl;
+
 
     return 0;
 }
+
+
