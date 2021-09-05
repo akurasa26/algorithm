@@ -52,16 +52,13 @@ func main() {
 		for i := range crains {
 			for j := crainPos[i]; j < m; j++ {
 				if !boxCheck[j] && crains[i] >= boxes[j] {
-					crainPos[i] = j + 1
+					crainPos[i]++
 					boxCheck[j] = true
 					checked++
 					break
 				}
+				crainPos[i]++
 			}
-		}
-		if count > 10000 {
-			fmt.Printf("%d", -1)
-			return
 		}
 		count++
 	}
