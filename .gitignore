@@ -261,4 +261,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+**/main
+**/main.dSYM
 # End of https://www.gitignore.io/api/c++,osx,clion,emacs,clion+all:
