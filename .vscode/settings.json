@@ -18,6 +18,9 @@
     "string_view": "cpp",
     "unordered_map": "cpp",
     "utility": "cpp",
-    "tuple": "cpp"
+    "tuple": "cpp",
+    "algorithm": "cpp",
+    "stdexcept": "cpp",
+    "ios": "cpp"
   }
 }
